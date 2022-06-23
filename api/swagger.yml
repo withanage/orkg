@@ -13,23 +13,16 @@ info:
 host: "https://github.com/withanage/orkg/"
 basePath: "/v2"
 tags:
-- name: "ORKG"
+- name: "orkg"
   description: "Open Research Knowledge Graph"
   externalDocs:
     description: "Open Research Knowledge Graph"
     url: "https://www.orkg.org/orkg/"
-- name: "OJS"
-  description: "Open Journal Systems"
-- name: "user"
-  description: "Open Journal Systems"
-  externalDocs:
-    description: "Open Journal Systems"
-    url: "https://pkp.sfu.ca/ojs/"
 schemes:
 - "https"
 - "http"
 paths:
-  /pet:
+  /orkg:
     post:
       tags:
       - "pet"
