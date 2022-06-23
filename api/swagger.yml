@@ -8,8 +8,8 @@ info:
   contact:
     email: "dulip.withanage@tib.eu"
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
 host: "https://github.com/withanage/orkg/"
 basePath: "/v2"
 tags:
@@ -25,16 +25,14 @@ paths:
   /orkg:
     post:
       tags:
-      - "pet"
+      - "orkg"
       summary: "Add a new pet to the store"
       description: ""
       operationId: "addPet"
       consumes:
       - "application/json"
-      - "application/xml"
       produces:
       - "application/xml"
-      - "application/json"
       parameters:
       - in: "body"
         name: "body"
