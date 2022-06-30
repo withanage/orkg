@@ -1,4 +1,3 @@
-
 swagger: "2.0"
 info:
   description: "Proposal for ORKG interface  for Journal creation"
@@ -22,7 +21,7 @@ schemes:
 - "https"
 - "http"
 paths:
-  /articles/{jarticleId}:
+  /articles/{articleId}:
     get:
       tags:
       - "article"
@@ -33,7 +32,7 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "jarticleId"
+      - name: "articleId"
         in: "path"
         description: "ID of article to return"
         required: true
@@ -53,7 +52,7 @@ paths:
     post:
       tags:
       - "article"
-      summary: "Updates a article in the store with form data"
+      summary: "Updates a article in the journal with form data"
       description: ""
       operationId: "updateArticleWithForm"
       consumes:
@@ -62,7 +61,7 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "jarticleId"
+      - name: "articleId"
         in: "path"
         description: "ID of article that needs to be updated"
         required: true
@@ -82,7 +81,7 @@ paths:
         "405":
           description: "Invalid input"
       security:
-      - articlestore_auth:
+      - articlejournal_auth:
         - "write:articles"
         - "read:articles"
     delete:
@@ -99,7 +98,7 @@ paths:
         in: "header"
         required: false
         type: "string"
-      - name: "jarticleId"
+      - name: "articleId"
         in: "path"
         description: "Article id to delete"
         required: true
@@ -111,50 +110,13 @@ paths:
         "404":
           description: "Article not found"
       security:
-      - articlestore_auth:
+      - articlejournal_auth:
         - "write:articles"
         - "read:articles"
-  /articles/{jarticleId}/uploadImage:
-    post:
-      tags:
-      - "article"
-      summary: "uploads an image"
-      description: ""
-      operationId: "uploadFile"
-      consumes:
-      - "multipart/form-data"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "jarticleId"
-        in: "path"
-        description: "ID of article to update"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "additionalMetadata"
-        in: "formData"
-        description: "Additional data to pass to server"
-        required: false
-        type: "string"
-      - name: "file"
-        in: "formData"
-        description: "file to upload"
-        required: false
-        type: "file"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/ApiResponse"
-      security:
-      - articlestore_auth:
-        - "write:articles"
-        - "read:articles"
-  /store/inventory:
+  /journal/inventory:
     get:
       tags:
-      - "store"
+      - "journal"
       summary: "Returns article inventories by status"
       description: "Returns a map of status codes to quantities"
       operationId: "getInventory"
@@ -171,10 +133,10 @@ paths:
               format: "int32"
       security:
       - api_key: []
-  /store/order:
+  /journal/order:
     post:
       tags:
-      - "store"
+      - "journal"
       summary: "Place an order for a article"
       description: ""
       operationId: "placeOrder"
@@ -195,10 +157,10 @@ paths:
             $ref: "#/definitions/Order"
         "400":
           description: "Invalid Order"
-  /store/order/{orderId}:
+  /journal/order/{orderId}:
     get:
       tags:
-      - "store"
+      - "journal"
       summary: "Find purchase order by ID"
       description: "For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions"
       operationId: "getOrderById"
@@ -225,7 +187,7 @@ paths:
           description: "Order not found"
     delete:
       tags:
-      - "store"
+      - "journal"
       summary: "Delete purchase order by ID"
       description: "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors"
       operationId: "deleteOrder"
@@ -432,9 +394,9 @@ paths:
         "404":
           description: "User not found"
 securityDefinitions:
-  articlestore_auth:
+  articlejournal_auth:
     type: "oauth2"
-    authorizationUrl: "http://articlesstore.swagger.io/oauth/dialog"
+    authorizationUrl: "http://articlesjournal.swagger.io/oauth/dialog"
     flow: "implicit"
     scopes:
       write:articles: "modify articles in your account"
@@ -450,7 +412,7 @@ definitions:
       id:
         type: "integer"
         format: "int64"
-      jarticleId:
+      articleId:
         type: "integer"
         format: "int64"
       quantity:
@@ -545,7 +507,7 @@ definitions:
           $ref: "#/definitions/Tag"
       status:
         type: "string"
-        description: "article status in the store"
+        description: "article status in the journal"
         enum:
         - "available"
         - "pending"
