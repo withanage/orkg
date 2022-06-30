@@ -107,6 +107,12 @@ paths:
       produces:
         - "application/json"
       parameters:
+        - name: "journalId"
+          in: "path"
+          description: "ID of journal to return"
+          required: true
+          type: "integer"
+          format: "int64"
         - name: "articleId"
           in: "path"
           description: "ID of article to return"
