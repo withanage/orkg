@@ -134,8 +134,8 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - in: "path"
-          name: "articleId"
+        - name: "articleId"
+          in: "path"
           description: "ID of article to return"
           required: true
           type: "integer"
