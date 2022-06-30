@@ -21,104 +21,12 @@ schemes:
 - "https"
 - "http"
 paths:
-  /articles/{articleId}:
-    get:
-      tags:
-      - "article"
-      summary: "Find article by ID"
-      description: "Returns a single article"
-      operationId: "getArticleById"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "articleId"
-        in: "path"
-        description: "ID of article to return"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/articles"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Article not found"
-      security:
-      - api_key: []
-    post:
-      tags:
-      - "article"
-      summary: "Updates a article in the journal with form data"
-      description: ""
-      operationId: "updateArticleWithForm"
-      consumes:
-      - "application/x-www-form-urlencoded"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "articleId"
-        in: "path"
-        description: "ID of article that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "name"
-        in: "formData"
-        description: "Updated name of the article"
-        required: false
-        type: "string"
-      - name: "status"
-        in: "formData"
-        description: "Updated status of the article"
-        required: false
-        type: "string"
-      responses:
-        "405":
-          description: "Invalid input"
-      security:
-      - articlejournal_auth:
-        - "write:articles"
-        - "read:articles"
-    delete:
-      tags:
-      - "article"
-      summary: "Deletes a article"
-      description: ""
-      operationId: "deleteArticle"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "api_key"
-        in: "header"
-        required: false
-        type: "string"
-      - name: "articleId"
-        in: "path"
-        description: "Article id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Article not found"
-      security:
-      - articlejournal_auth:
-        - "write:articles"
-        - "read:articles"
-  /journals/index:
+  /journals:
     get:
       tags:
       - "journal"
-      summary: "Returns journals by status"
-      description: "Returns a map of status codes to quantities"
+      summary: "Returns  all journals"
+      description: "Returns a  list of all the journals"
       operationId: "getIndex"
       produces:
       - "application/json"
@@ -137,16 +45,15 @@ paths:
     get:
       tags:
       - "journal"
-      summary: "Find purchase order by ID"
+      summary: "returns a Journal by ID"
       description: "For valid response try integer IDs with value >= 1 and <= 100.      Other values will generated exceptions"
       operationId: "getJournalById"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/json"
       parameters:
       - name: "journalId"
         in: "path"
-        description: "ID of article that needs to be fetched"
+        description: "ID of journal that needs to be fetched"
         required: true
         type: "integer"
         maximum: 100.0
@@ -156,33 +63,67 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/Journals"
+            $ref: "#/definitions/Journal"
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Order not found"
-    delete:
+  /journal/{journalId}/articles:
+    get:
       tags:
-      - "journal"
-      summary: "Delete purchase order by ID"
-      description: "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors"
-      operationId: "deleteOrder"
+        - "articles"
+      summary: "return all articles by journal id"
+      description: "return all articles by journal id"
+      operationId: "getArticlesById"
       produces:
-      - "application/xml"
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "journalId"
-        in: "path"
-        description: "ID of the order that needs to be deleted"
-        required: true
-        type: "integer"
-        minimum: 1.0
-        format: "int64"
+        - name: "journalId"
+          in: "path"
+          description: "ID of jouranl to return"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Article"
         "400":
           description: "Invalid ID supplied"
         "404":
-          description: "Order not found"
+          description: "Article not found"
+      security:
+        - api_key: [ ]
+
+
+  /journal/{journalId}/article/{articleId}:
+    get:
+      tags:
+        - "article"
+      summary: "return article by ID"
+      description: "Returns a single article"
+      operationId: "getArticleById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "articleId"
+          in: "path"
+          description: "ID of article to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Article"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Article not found"
+      security:
+        - api_key: [ ]
 
 definitions:
   Journal:
@@ -191,22 +132,23 @@ definitions:
       id:
         type: "integer"
         format: "int64"
-      articleId:
+      journalId:
         type: "integer"
         format: "int64"
-      quantity:
-        type: "integer"
+      title:
+        type: "string"
         format: "int32"
-      shipDate:
+      published_date:
         type: "string"
         format: "date-time"
       status:
         type: "string"
-        description: "Order Status"
+        description: "published status"
         enum:
-        - "placed"
-        - "approved"
-        - "delivered"
+        - "submission"
+        - "peer-review"
+        - "production"
+        - "published"
       complete:
         type: "boolean"
         default: false
@@ -235,17 +177,22 @@ definitions:
   Article:
     type: "object"
     required:
-    - "name"
+    - "submission_name"
     - "photoUrls"
     properties:
-      id:
+      submission_name:
+        type: "integer"
+        format: "int64"
+      context_name:
         type: "integer"
         format: "int64"
       category:
         $ref: "#/definitions/Category"
       name:
         type: "string"
-        example: "doggie"
+        example: "ORKG Journal"
+        enum:
+          - "Smart-Review Journal"
       photoUrls:
         type: "array"
         xml:
