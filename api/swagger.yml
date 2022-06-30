@@ -134,14 +134,14 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "articleId"
-          in: "path"
+        - in: "path"
+          name: "articleId"
           description: "ID of article to return"
           required: true
           type: "integer"
           format: "int64"
-        - name: "versionId"
-          in: "path"
+        - in: "path"
+          name: "versionId"
           description: "version ID of article to return"
           required: true
           type: "integer"
