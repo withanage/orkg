@@ -22,11 +22,11 @@ schemes:
 - "https"
 - "http"
 paths:
-  /:
-    post:
-      summary: "Add a new pet to the store"
-      description: ""
-      operationId: "addPet"
+  /journals:
+    get:
+      summary: "list all journals"
+      description: "Lsit all publically accessible journals"
+      operationId: "index"
       consumes:
       - "application/json"
       produces:
@@ -38,6 +38,8 @@ paths:
         schema:
           $ref: "#/definitions/Pet"
       responses:
+        default:
+          description: "successful operation"
         "405":
           description: "Invalid input"
       security:
