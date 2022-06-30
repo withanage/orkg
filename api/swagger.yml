@@ -23,9 +23,9 @@ schemes:
 - "http"
 paths:
   /journals:
-    get:
-      summary: "list all journals"
-      description: "List all publicly accessible journals"
+    post:
+      summary: "Add a new pet to the store"
+      description: ""
       operationId: "addPet"
       consumes:
       - "application/json"
