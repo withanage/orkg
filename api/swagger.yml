@@ -133,13 +133,13 @@ paths:
               format: "int32"
       security:
       - api_key: []
-  /journal/order:
-    post:
+  /journals:
+    get:
       tags:
       - "journal"
-      summary: "Place an order for a article"
+      summary: "List all journals"
       description: ""
-      operationId: "placeOrder"
+      operationId: "index"
       produces:
       - "application/xml"
       - "application/json"
@@ -157,7 +157,7 @@ paths:
             $ref: "#/definitions/Order"
         "400":
           description: "Invalid Order"
-  /journal/order/{orderId}:
+  /journal/{journalId}:
     get:
       tags:
       - "journal"
@@ -168,7 +168,7 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "orderId"
+      - name: "journalId"
         in: "path"
         description: "ID of article that needs to be fetched"
         required: true
@@ -195,7 +195,7 @@ paths:
       - "application/xml"
       - "application/json"
       parameters:
-      - name: "orderId"
+      - name: "journalId"
         in: "path"
         description: "ID of the order that needs to be deleted"
         required: true
