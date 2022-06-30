@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   description: "Proposal for ORKG interface  for Journal retrieval"
   version: "1.0.0"
-  title: "ORKG interface  for Journal creation"
+  title: "ORKG interface  for Journal retrieval"
   termsOfService: "http://swagger.io/terms/"
   contact:
     email: "dulip.withanage@tib.eu"
