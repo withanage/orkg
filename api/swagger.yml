@@ -22,7 +22,7 @@ schemes:
 - "https"
 - "http"
 paths:
-  /orkg:
+  /:
     post:
       tags:
       - "orkg"
