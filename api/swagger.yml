@@ -140,12 +140,6 @@ paths:
           required: true
           type: "integer"
           format: "int64"
-        - in: "path"
-          name: "versionId"
-          description: "version ID of article to return"
-          required: true
-          type: "integer"
-          format: "int64"
       responses:
         "200":
           description: "successful operation"
